@@ -1,0 +1,36 @@
+
+#roomDisplay {
+    width: 50%;
+    height: 40%;
+    background-color: #9af5fe;
+    border: 2px solid #b0b0f0;
+}
+
+#roomFeatures {
+    width: 50%;
+    height: 20%;
+    background-color: #a2d0f7;
+   
+}
+
+#grid{
+    border: 2px solid #000000;
+    align-content:center;
+}
+#grid tr {
+    border: 2px solid #000000;
+    width:  10%;
+    height: 10%;
+    align-content :center;
+}
+
+#grid td {
+    border: 2px solid #000000;
+    width: 10%;
+    height: 10%;
+}
+
+#workingContainerView{
+    border: 2px solid #000000;
+    background-color: #DDDDDD;
+}

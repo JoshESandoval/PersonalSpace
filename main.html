@@ -1,0 +1,78 @@
+<html>
+<head>
+    <script src ="main.js" defer="defer"></script>
+    <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+
+    <h2>Personal Space</h2>
+
+    <!--Drop down list to select which Room and Wall to display-->
+    <form id="roomForm">
+        Room:
+        <select name="roomSelect" id="roomSelect" onchange="updateRoom()">
+            <option value="Kitchen" id="kitchen" name="kitchen">Kitchen</option>
+            <option value="Bedroom" id="bedroom" name="bedroom">Bedroom</option>
+        </select>
+    </form>
+
+
+    <p>
+        Click button to create a new room
+        <input type="button" value="New Room" onclick="addRoom()">
+    </p>
+
+    <!-- Shows the working room -->
+    <div id="roomTitle">Kitchen</div>
+    <div id="practiceRun">
+
+    </div>
+    <div id="roomDisplay" class="roomDisplay" ondragover="dragOver(event)" ondrop="drop(event)">
+        <table id="grid">
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+        </table>
+
+    </div>
+    <input type="button" id="createDesk" class="buttons" value="New Desk" onclick="createContainer('desk')" />
+    <input type="button" id="createDesk" class="buttons" value="New Shelf" onclick="createContainer('shelf')" />
+    <p>Click and Drag an Icon into area above to create a container of the same type</p>
+
+    <div id="roomFeatures" class="roomFeatures">       
+    </div>
+
+    <div id="workingContainerView">
+        <img id="wcvImg" src=" ./Icons/personalSpaceDesk.png" onclick="updateWCVJSON()" />
+        <div id="wcvLabel" onclick="updateWCV()"></div>
+        <div>
+            <input type="text" name="addAnItem" id="addItem" onsubmit="addItem()" />
+
+            Row/Shelf Layer
+            <select name="shelfSelect" id="shelfSelect" onchange="updateShelf()">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <input type="button" value="Add Item to item list" name="addItemSubmit" onclick="addItemJSON()" />
+        </div>
+        <div id="wcvItems"></div>
+    </div>
+
+
+
+</body>
+</html>
