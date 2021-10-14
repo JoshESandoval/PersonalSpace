@@ -1,35 +1,42 @@
+//the updated version linked to git
+
 let shelfImg = "./Icons/personalSpaceBookShelf.png";
 let deskImg = "./Icons/personalSpaceDesk.png"
 
 //*****Class and Sub-Class definitions for container*****
 
 class Container {
-    constructor(name_, type_, image_){
+    constructor(name_, type_, image_) {
         this.name = name_;
         this.type = type_;
         this.image = image_;
         this.itemList = [];
+        this.sourceParent;
     }
     getName() {
         return this.name;
     }
-    getImg(){
+    getImg() {
         return this.image;
     }
-    
+    getParent() {
+        return this.sourceParent;
+    }
+    setParent(parent) {
+        this.sourceParent = parent;
+    }
 };
 
 class Bookshelf extends Container {
-    constructor(name_,type_,image_) {
+    constructor(name_, type_, image_) {
         super(name_, type_, image_);
-        this.parent;
+
     }
 }
 
 class Desk extends Container {
     constructor(name_, type_, image_) {
         super(name_, type_, image_);
-        this.parent;
     }
 }
 
@@ -52,7 +59,7 @@ function updateWCV() {
 
     workingCV.innerHTML = workingContainer.getName();
     workingCVImg.src = workingContainer.getImg();
-    workingCVItems.innerHTML = workingContainer.itemList ;
+    workingCVItems.innerHTML = workingContainer.itemList;
 }
 
 function findContainerWithName(aName) {
@@ -65,6 +72,18 @@ function findContainerWithName(aName) {
     updateWCVJSON();
 }
 
+function findContainerToChange(aName, giveNode) {
+    for (let i = 0; i < containerPool.length; i++) {
+        let temp = containerPool[i];
+        if (temp.getName() == aName) {
+            if (giveNode) {
+                return containerPool[i];
+            }
+            else
+                return i;
+        }
+    }
+}
 function updateRoom() {
     let room = document.getElementById("roomTitle");
     room.innerHTML = roomSelect.value;
@@ -77,7 +96,7 @@ function addRoom() {
     let aNode = document.createElement("option");
     aNode.value = aNode.id = aNode.innerHTML = aRoom;
     roomSelectH.appendChild(aNode);
-     
+
 }
 
 function updateShelf() {
@@ -95,7 +114,7 @@ function addItemJSON() {
     let submit = document.getElementById("addItem");
     let row = document.getElementById("shelfSelect");
 
-    let temp = [{ 'row': row.value , 'name': submit.value }];
+    let temp = [{ 'row': row.value, 'name': submit.value }];
 
     workingContainer.itemList.push(temp);
     updateWCVJSON();
@@ -111,15 +130,15 @@ function addItemJSON( row , itemName) {
 }
 */
 
-function updateWCVJSON() { 
+function updateWCVJSON() {
     let workingCV = document.getElementById("wcvLabel");
     let workingCVImg = document.getElementById("wcvImg");
     let workingCVItems = document.getElementById("wcvItems")
-
+    let parentNode = workingContainer.getParent();
     workingCV.innerHTML = workingContainer.getName();
     workingCVImg.src = workingContainer.getImg();
-    workingCVItems.innerHTML = '';
-    for (let item = 0; item < workingContainer.itemList.length; item++){
+    workingCVItems.innerHTML = parentNode.id + '<br>';
+    for (let item = 0; item < workingContainer.itemList.length; item++) {
         for (let items = 0; items < 1; items++) {
             workingCVItems.innerHTML += workingContainer.itemList[item][items].row + ' : ' + workingContainer.itemList[item][items].name + '<br>';
         }
@@ -129,6 +148,7 @@ function updateWCVJSON() {
 //*****Drag and Drop functions
 
 let aList = document.querySelectorAll('.roomDisplay');
+addListeners(document.getElementById('trash'));
 
 aList.forEach(item => {
     addListeners(item);
@@ -143,7 +163,7 @@ function addListeners(temp) {
 }
 
 function dragStart(ev) {
-    ev.dataTransfer.setData('text/plain', ev.target.id); 
+    ev.dataTransfer.setData('text/plain', ev.target.id);
 }
 
 function dragEnter(ev) {
@@ -158,22 +178,38 @@ function dragLeave(ev) {
 
 }
 
+function deleteContainer(id) {
+    containerPool.splice(findContainerToChange(id), false);
+}
+
 function drop(ev) {
     const id = ev.dataTransfer.getData('text/plain');
     const draggable = document.getElementById(id);
 
     //Fixes issue where images would be deleted if dropped on another image
-    if (ev.target.id == null || ev.target.id =='') {
+
+    if (ev.target.id == "trash") {
+        deleteContainer(id);
+        if (draggable != null) {
+            let parant = draggable.parentNode;
+            parant.removeChild(draggable);
+            findContainerWithName('Example');
+        }
+    }
+    else if (ev.target.parentNode.id == "row" || ev.target.id == '') {
         ev.target.appendChild(draggable);
+        workingContainer = findContainerToChange(draggable.id, true);
+        workingContainer.setParent(ev.target);
     }
     else {
-        alert("Unable to drop here :(")
+
+        alert(ev.target.parentNode.id)
     }
 
 }
 
 function createContainer(type) {
-      
+
     let anId = prompt("Lable/Name for " + type);
 
     if (anId != '') {
@@ -183,11 +219,13 @@ function createContainer(type) {
         if (type == 'shelf') {
             duplicatedNode.src = "./Icons/personalSpaceBookShelf.png";
             let temp = new Bookshelf(anId, type, shelfImg);
+            temp.setParent(this);
             containerPool.push(temp);
         }
         else if (type == 'desk') {
             duplicatedNode.src = "./Icons/personalSpaceDesk.png";
             let temp = new Container(anId, type, deskImg);
+            temp.setParent(this);
             containerPool.push(temp);
         }
 
