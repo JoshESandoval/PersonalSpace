@@ -12,21 +12,35 @@
 
 
 let lastRoom = 'Kitchen';
-let shelfImg = "./Icons/personalSpaceBookShelf.png";
-let deskImg = "./Icons/personalSpaceDesk.png";
+
+let deskImg = "./Icons/Desk.png";
+let shelfImg = "./Icons/Shelf.png";
+let bookshelfImg = "./Icons/Bookshelf.png";
+let dresserImg = "./Icons/Dresser.png";
+let nightstandImg = "./Icons/Nightstand.png";
+let cabinetImg = "./Icons/Cabinet.png" ;
 
 
+const containerType = {
+    DESK: "desk",
+    SHELF: "shelf",
+    BOOKSHELF: "bookshelf",
+    DRESSER: "dresser",
+    NIGHTSTAND: "nightstand",
+    CABINET: "cabinet",
+}
 //***** Class and Child-Class definitions for Container *****//
 
 
 class Container {
-    constructor(name_, type_, image_) {
+    constructor(name_, type_) {
         this.name = name_;
         this.type = type_;
-        this.image = image_;
+        this.image = deskImg;
         this.room = roomSelect.value;
-        this.itemList = [];
+        this.itemList = []; //row name json pair
         this.sourceParent;
+        this.rows = 1;
     }
 
     getName() {
@@ -45,30 +59,81 @@ class Container {
         this.sourceParent = parent;
     }
 
+    getRows() {
+        return this.rows;
+    }
+
     getRoom() {
         return this.room;
     }
+
+    sortContainer() {
+        let tempList = [];
+        for (let i = 1; i < this.rows + 1; i++) {
+            for (let item = 0; item < this.itemList.length; item++) {
+                if (this.itemList[item][0].row == i) {
+                    tempList.push(this.itemList[item]);
+                }
+            }
+        }
+        this.itemList = tempList;
+    }
 };
 
-class Bookshelf extends Container {
-    constructor(name_, type_, image_) {
-        super(name_, type_, image_);
-    }
-}
-
 class Desk extends Container {
-    constructor(name_, type_, image_) {
-        super(name_, type_, image_);
+    constructor(name_, type_) {
+        super(name_, type_);
+        this.image = deskImg;
+        this.rows = 2;
     }
 }
 
+class Shelf extends Container {
+    constructor(name_, type_) {
+        super(name_, type_);
+        this.image = shelfImg;
+        this.rows = 1;
+    }
+}
+
+class Bookshelf extends Container {
+    constructor(name_, type_) {
+        super(name_, type_);
+        this.image = bookshelfImg;
+        this.rows = 6;
+    } 
+}
+
+class Dresser extends Container {
+    constructor(name_, type_) {
+        super(name_, type_);
+        this.image = dresserImg;
+        this.rows = 6; //2 X 3
+    }
+}
+
+class Cabinet extends Container {
+    constructor(name_,type_) {
+        super(name_, type_);
+        this.image = cabinetImg;
+        this.rows = 4;
+    }
+}
+
+class Nightstand extends Container {
+    constructor(name_, type_) {
+        super(name_, type_);
+        this.image = nightstandImg;
+        this.rows = 3;
+    }
+}
 
 //***** Main Logic / Structures *****//
 
 
 //Contains Container Elements: Code Block sets up container view
 let containerPool = [];
-let example = new Container("Example", "Shelf", shelfImg);
+let example = new Container("Example", "Shelf", bookshelfImg);
 let workingContainer = example;
 containerPool.push(example);
 updateWCVJSON();
@@ -82,18 +147,7 @@ function createContainer(type) {
         let duplicatedNode = document.createElement("img");
 
         //links container type/class/img to image node created above : hope to generalize function to shorten
-        if (type == 'shelf') {
-            duplicatedNode.src = "./Icons/personalSpaceBookShelf.png";
-            let temp = new Bookshelf(anId, type, shelfImg);
-            temp.setParent(this);
-            containerPool.push(temp);
-        }
-        else if (type == 'desk') {
-            duplicatedNode.src = "./Icons/personalSpaceDesk.png";
-            let temp = new Container(anId, type, deskImg);
-            temp.setParent(this);
-            containerPool.push(temp);
-        }
+        makeContainer(type, anId, this, duplicatedNode);
 
         duplicatedNode.draggable = true;
         duplicatedNode.id = anId;
@@ -105,6 +159,41 @@ function createContainer(type) {
     else {
         createContainer(type);
     }
+}
+
+
+function makeContainer(type, id, parent, duplicatedNode) {
+    let temp;
+    switch (type) {
+        case containerType.DESK:
+            temp = new Desk(id, type);
+            duplicatedNode.src = deskImg;
+            break;
+        case containerType.SHELF:
+            temp = new Shelf(id, type);
+            duplicatedNode.src = shelfImg;
+            break;
+        case containerType.BOOKSHELF:
+            temp = new Bookshelf(id, type);
+            duplicatedNode.src = bookshelfImg;
+            break;
+        case containerType.DRESSER:
+            temp = new Dresser(id, type);
+            duplicatedNode.src = dresserImg;
+            break;
+        case containerType.CABINET:
+            temp = new Cabinet(id, type);
+            duplicatedNode.src = cabinetImg;
+            break;
+        case containerType.NIGHTSTAND:
+            temp = new Nightstand(id, type);
+            duplicatedNode.src = nightstandImg;
+            break;
+        default:
+            break;
+    }
+    temp.setParent(parent);
+    containerPool.push(temp);
 }
 
 //recreates image-container link after room change
@@ -165,8 +254,10 @@ function addItemJSON() {
         let temp = [{ 'row': row.value, 'name': submit.value }];
 
         workingContainer.itemList.push(temp);
+        workingContainer.sortContainer();
         updateWCVJSON();
         submit.value = '';
+
     }
     else {
         alert('Cannot add items to the Example ');
@@ -186,6 +277,7 @@ function updateWCVJSON() {
     workingCVImg.src = workingContainer.getImg();
     workingCVItems.innerHTML = '';
 
+    changeOptionsTo(workingContainer.getRows());
     //Displays items attatched to Working Container
     for (let item = 0; item < workingContainer.itemList.length; item++) {
         for (let items = 0; items < 1; items++) {
@@ -229,14 +321,26 @@ function updateRoom() {
     }
 }
 
-function updateShelf() {
-    //will sort items relative to shelf
-}
+
 
 function deleteContainer(id) {
     containerPool.splice(findContainerToChange(id), false);
 }
 
+function changeOptionsTo(rowNum) {
+    let rowSelect = document.getElementById("shelfSelect");
+    let previousRows = rowSelect.childElementCount;
+
+    for (let i = 1; i < previousRows; i++) {
+        rowSelect.removeChild(rowSelect.lastChild);
+    }
+    for (let j = 1; j < rowNum; j++) {
+        let tempOption = document.createElement("option");
+        tempOption.value = j + 1;
+        tempOption.innerHTML = j + 1;
+        rowSelect.appendChild(tempOption);
+    }
+}
 
 //*****Drag and Drop functions
 

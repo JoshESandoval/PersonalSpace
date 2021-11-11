@@ -24,44 +24,54 @@
 
     <!-- Shows the working room -->
     <div id="roomTitle">Kitchen</div>
-    <div id="practiceRun">
-
-    </div>
     <div id="roomDisplay" class="roomDisplay" ondragover="dragOver(event)" ondrop="drop(event)">
         <table id="grid">
             <tr id="row">
-                <td id="7">7</td>
-                <td id="8">8</td>
-                <td id="9">9</td>
+                <td class="dropZone" id="13"></td>
+                <td class="dropZone" id="14"></td>
+                <td class="dropZone" id="15"></td>
+                <td class="dropZone" id="16"></td>
+                <td class="dropZone" id="17"></td>
+                <td class="dropZone" id="18"></td>
             </tr>
             <tr id="row">
-                <td id="4">4</td>
-                <td id="5">5</td>
-                <td id="6">6</td>
+                <td class="dropZone" id="7"></td>
+                <td class="dropZone" id="8"></td>
+                <td class="dropZone" id="9"></td>
+                <td class="dropZone" id="10"></td>
+                <td class="dropZone" id="11"></td>
+                <td class="dropZone" id="12"></td>
             </tr>
             <tr id="row">
-                <td id="1">1</td>
-                <td id="2">2</td>
-                <td id="3">3</td>
+                <td class="dropZone" id="1"></td>
+                <td class="dropZone" id="2"></td>
+                <td class="dropZone" id="3"></td>
+                <td class="dropZone" id="4"></td>
+                <td class="dropZone" id="5"></td>
+                <td class="dropZone" id="6"></td>
             </tr>
         </table>
 
     </div>
-    <input type="button" id="createDesk" class="buttons" value="New Desk" onclick="createContainer('desk')" />
-    <input type="button" id="createDesk" class="buttons" value="New Shelf" onclick="createContainer('shelf')" />
     <p>Click and Drag an Icon into area above to create a container of the same type</p>
+    <input type="image" src="./Icons/Desk.png" id="createDesk" class="buttons" onclick="createContainer('desk')">
+    <input type="image" src="./Icons/Shelf.png" id="createShelf" class="buttons" onclick="createContainer('shelf')" />
+    <input type="image" src="./Icons/Bookshelf.png" id="createBookshelf" class="buttons" onclick="createContainer('bookshelf')"/>
+    <input type="image" src="./Icons/Dresser.png" id="createDresser" class="buttons" onclick="createContainer('dresser')" />
+    <input type="image" src="./Icons/Cabinet.png" id="createCabinet" class="buttons" onclick="createContainer('cabinet')"/>
+    <input type="image" src="./Icons/Nightstand.png" id="createNightstand" class="buttons" onclick="createContainer('nightstand')" />
 
     <div id="roomFeatures" class="roomFeatures">
     </div>
 
     <div id="workingContainerView">
-        <img id="wcvImg" src=" ./Icons/personalSpaceDesk.png" onclick="updateWCVJSON()" />
-        <div id="wcvLabel" onclick="updateWCV()"></div>
+        <img id="wcvImg" src=" ./Icons/Desk.png" onclick="updateWCVJSON()" />
+        <div id="wcvLabel" onclick="updateWCVJSON()"></div>
         <div>
             <input type="text" name="addAnItem" id="addItem" />
 
             Row/Shelf Layer
-            <select name="shelfSelect" id="shelfSelect" onchange="updateShelf()">
+            <select name="shelfSelect" id="shelfSelect">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
