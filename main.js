@@ -143,18 +143,32 @@ function createContainer(type) {
 
     //ensures Container can be 'tracked'
     if (anId != '') {
-        let acontainerPool = document.getElementById('roomFeatures');
+        let aContainerPool = document.getElementById('roomFeatures');
         let duplicatedNode = document.createElement("img");
+        let itemLable=document.createElement('p');
 
         //links container type/class/img to image node created above : hope to generalize function to shorten
         makeContainer(type, anId, this, duplicatedNode);
 
+        itemLable.innerHTML=anId;
+        itemLable.id=anId;
+        itemLable.className='itemLables';
+
+        itemLable.draggable=true;
+        itemLable.onclick = () => { findContainerWithName(anId) };
+        
         duplicatedNode.draggable = true;
         duplicatedNode.id = anId;
+        duplicatedNode.className='itemImages';
         duplicatedNode.onclick = () => { findContainerWithName(anId) };
+        
+        addListeners(itemLable);
         addListeners(duplicatedNode);
 
-        acontainerPool.appendChild(duplicatedNode);
+
+        aContainerPool.appendChild(itemLable)
+        itemLable.appendChild(duplicatedNode);
+
     }
     else {
         createContainer(type);

@@ -34,7 +34,7 @@
     <h2 id="title">Personal Space</h2 >
 
     <!--Drop down list to select which Room and Wall to display-->
-    <form id="roomForm">
+    <form id="roomForm" class="extras">
         Room:
         <select name="roomSelect" id="roomSelect" onchange="updateRoom()">
             <option value="Kitchen" id="kitchen" name="kitchen">Kitchen</option>
@@ -43,13 +43,13 @@
     </form>
 
 
-    <p>
+    <p class="extras"> 
         Click button to create a new room
         <input type="button" value="New Room" onclick="addRoom()">
     </p>
 
     <!-- Shows the working room -->
-    <div id="roomTitle">Kitchen</div>
+    <div id="roomTitle" class="extras">Kitchen</div>
     <div id="roomDisplay" class="roomDisplay" ondragover="dragOver(event)" ondrop="drop(event)">
         <table id="grid">
             <tr id="row">
@@ -79,7 +79,7 @@
         </table>
 
     </div>
-    <p>Click and Drag an Icon into area above to create a container of the same type</p>
+    <p class="extras" style="margin-left: 5%;">Click and Drag an Icon into area above to create a container of the same type</p>
     <input type="image" src="./Icons/Desk.png" id="createDesk" class="buttons" onclick="createContainer('desk')">
     <input type="image" src="./Icons/Shelf.png" id="createShelf" class="buttons" onclick="createContainer('shelf')" />
     <input type="image" src="./Icons/Bookshelf.png" id="createBookshelf" class="buttons" onclick="createContainer('bookshelf')" />

@@ -1,20 +1,35 @@
 body{
-    background-color: #aac5de;
+    background-color: #cde7ff;
+    font-family: sans-serif;
 }
 
 
 .workingContainerDisplay {
-    border: 2px solid #000000;
-    background-color: #DDDDDD;
-    display:inline-block;
+    border: 2px solid #000000 ;
+    background-color: #a2d0f7;
+    display:flexbox;
+    position: absolute ;
     width: 25%;
-    place-content: right;
+    margin-left: 75%;
+   
+    height: auto;
 }
 
 .workingContainerDisplay *{
     place-items:normal;
 }
 
+.itemLables{
+    margin: 5px 5px 5px 15px;
+    align-content: center;
+    font-size: small;
+    
+}
+
+.itemImages{
+    position: absolute;
+    display: flex;
+ }
 #title{
     margin-left: 30%;
     display:flex;
@@ -41,18 +56,30 @@ body{
     background-color: #9af5fe;
     border: 2px solid #b0b0f0;
     width:50%;
-    height:20%;
+    height:50%;
+    margin-left: 5%;
 }
 
 .buttons {
     border: 2px solid #777777;
+    margin-left: 5%;
 }
 
 #roomFeatures {
-    width: 100%;
+    width: 80%;
     height: 20%;
     background-color: #a2d0f7;
-   
+    margin-left: 5%;
+    
+}
+
+#roomFeatures .itemLables{
+    display: inline-block;
+}
+
+.extras{
+    margin-left: 5%;
+    font-size: large;
 }
 
 
