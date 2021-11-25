@@ -1,20 +1,28 @@
-
-#roomDisplay {
-    
-    background-color: #9af5fe;
-    border: 2px solid #b0b0f0;
+body{
+    background-color: #aac5de;
 }
 
-#roomFeatures {
-    width: 50%;
-    height: 20%;
-    background-color: #a2d0f7;
-   
+
+.workingContainerDisplay {
+    border: 2px solid #000000;
+    background-color: #DDDDDD;
+    display:inline-block;
+    width: 25%;
+    place-content: right;
+}
+
+.workingContainerDisplay *{
+    place-items:normal;
+}
+
+#title{
+    margin-left: 30%;
+    display:flex;
 }
 
 #grid {
-    width:  50%;
-    height: 50%;
+    width:  100%;
+    height: 100%;
     border: 2px solid #888888;
 }
 
@@ -28,17 +36,32 @@
 
 }
 
-#workingContainerView{
-    border: 2px solid #000000;
-    background-color: #DDDDDD;
+
+#roomDisplay {
+    background-color: #9af5fe;
+    border: 2px solid #b0b0f0;
+    width:50%;
+    height:20%;
 }
 
 .buttons {
     border: 2px solid #777777;
 }
 
+#roomFeatures {
+    width: 100%;
+    height: 20%;
+    background-color: #a2d0f7;
+   
+}
+
+
+
+
+
+
+
 .dropZone{
     width:  5%;
     height: 5%;
-
 }

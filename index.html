@@ -5,7 +5,33 @@
 </head>
 <body>
 
-    <h2>Personal Space</h2>
+
+    <div class="workingContainerDisplay" id="workingContainerView">
+        <div>
+            <img id="wcvImg" src=" ./Icons/Desk.png" onclick="updateWCVJSON()" />
+        </div>
+        <div id="wcvLabel" onclick="updateWCVJSON()"></div>
+        <div>
+            <input id="addItem" type="text" name="addAnItem" />
+
+            <div>
+                Row/Shelf Layer
+                <select name="shelfSelect" id="shelfSelect">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <input type="button" value="Add Item to item list" name="addItemSubmit" onclick="addItemJSON()" />
+        </div>
+        <div id="wcvItems"></div>
+        <div id="trash" ondragover="dragOver(event)" ondrop="drop(event)">
+            trash bin <br />
+            adding more space to drop
+        </div>
+    </div>
+    <h2 id="title">Personal Space</h2 >
 
     <!--Drop down list to select which Room and Wall to display-->
     <form id="roomForm">
@@ -56,35 +82,15 @@
     <p>Click and Drag an Icon into area above to create a container of the same type</p>
     <input type="image" src="./Icons/Desk.png" id="createDesk" class="buttons" onclick="createContainer('desk')">
     <input type="image" src="./Icons/Shelf.png" id="createShelf" class="buttons" onclick="createContainer('shelf')" />
-    <input type="image" src="./Icons/Bookshelf.png" id="createBookshelf" class="buttons" onclick="createContainer('bookshelf')"/>
+    <input type="image" src="./Icons/Bookshelf.png" id="createBookshelf" class="buttons" onclick="createContainer('bookshelf')" />
     <input type="image" src="./Icons/Dresser.png" id="createDresser" class="buttons" onclick="createContainer('dresser')" />
-    <input type="image" src="./Icons/Cabinet.png" id="createCabinet" class="buttons" onclick="createContainer('cabinet')"/>
+    <input type="image" src="./Icons/Cabinet.png" id="createCabinet" class="buttons" onclick="createContainer('cabinet')" />
     <input type="image" src="./Icons/Nightstand.png" id="createNightstand" class="buttons" onclick="createContainer('nightstand')" />
 
     <div id="roomFeatures" class="roomFeatures">
+
     </div>
 
-    <div id="workingContainerView">
-        <img id="wcvImg" src=" ./Icons/Desk.png" onclick="updateWCVJSON()" />
-        <div id="wcvLabel" onclick="updateWCVJSON()"></div>
-        <div>
-            <input type="text" name="addAnItem" id="addItem" />
-
-            Row/Shelf Layer
-            <select name="shelfSelect" id="shelfSelect">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-            <input type="button" value="Add Item to item list" name="addItemSubmit" onclick="addItemJSON()" />
-        </div>
-        <div id="wcvItems"></div>
-    </div>
-    <div id="trash" ondragover="dragOver(event)" ondrop="drop(event)">
-        trash bin <br />
-        adding more space to drop
-    </div>
 
 
 
