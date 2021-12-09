@@ -3,7 +3,6 @@ body{
     font-family: sans-serif;
 }
 
-
 .workingContainerDisplay {
     border: 2px solid #000000 ;
     background-color: #a2d0f7;
@@ -19,7 +18,13 @@ body{
     place-items:normal;
 }
 
-.itemLables{
+.workingContainerDisplay #editor{
+    margin-right: 30%;
+    margin-left: 30%;
+    
+}
+
+.itemLabels{
     margin: 5px 5px 5px 15px;
     align-content: center;
     font-size: small;
@@ -81,12 +86,6 @@ body{
     margin-left: 5%;
     font-size: large;
 }
-
-
-
-
-
-
 
 .dropZone{
     width:  5%;

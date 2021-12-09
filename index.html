@@ -8,7 +8,7 @@
 
     <div class="workingContainerDisplay" id="workingContainerView">
         <div>
-            <p> Editor </p>
+            <h3 id="editor"> Editor </h3>
             <img id="wcvImg" src=" ./Icons/Desk.png" onclick="updateWCVJSON()" />
         </div>
         <div id="wcvLabel" onclick="updateWCVJSON()"></div>
@@ -16,6 +16,7 @@
             <input id="addItem" type="text" name="addAnItem" />
 
             <div>
+                <input type="button" value="+" name="addItemSubmit" onclick="addItemJSON()" />
                 Row/Shelf Layer
                 <select name="shelfSelect" id="shelfSelect">
                     <option value="1">1</option>
@@ -24,13 +25,10 @@
                     <option value="4">4</option>
                 </select>
             </div>
-            <input type="button" value="Add Item to item list" name="addItemSubmit" onclick="addItemJSON()" />
+            
         </div>
         <div id="wcvItems"></div>
-        <div id="trash" ondragover="dragOver(event)" ondrop="drop(event)">
-            trash bin <br />
-            adding more space to drop
-        </div>
+        <img src="./Icons/Trash.png" id="trash" ondragover="dragOver(event)" ondrop="drop(event)" draggable="false">
     </div>
     <h2 id="title">Personal Space</h2 >
 

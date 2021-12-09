@@ -145,36 +145,73 @@ function createContainer(type) {
     if (anId != '') {
         let aContainerPool = document.getElementById('roomFeatures');
         let duplicatedNode = document.createElement("img");
-        let itemLable=document.createElement('p');
+        let itemLabel=document.createElement('p');
 
         //links container type/class/img to image node created above : hope to generalize function to shorten
         makeContainer(type, anId, this, duplicatedNode);
 
-        itemLable.innerHTML=anId;
-        itemLable.id=anId;
-        itemLable.className='itemLables';
+        itemLabel.innerHTML=anId;
+        itemLabel.id=anId;
+        itemLabel.className='itemLabels';
 
-        itemLable.draggable=true;
-        itemLable.onclick = () => { findContainerWithName(anId) };
+        itemLabel.draggable=true;
+        itemLabel.onclick = () => { findContainerWithName(anId) };
         
         duplicatedNode.draggable = true;
         duplicatedNode.id = anId;
         duplicatedNode.className='itemImages';
         duplicatedNode.onclick = () => { findContainerWithName(anId) };
         
-        addListeners(itemLable);
+        addListeners(itemLabel);
         addListeners(duplicatedNode);
 
 
-        aContainerPool.appendChild(itemLable)
-        itemLable.appendChild(duplicatedNode);
+        aContainerPool.appendChild(itemLabel)
+        itemLabel.appendChild(duplicatedNode);
 
     }
     else {
-        createContainer(type);
+        return 0;
     }
 }
 
+//recreates image-container link after room change
+function recreateContainer(container) {
+    let anId = container.getName();
+    let imageNode = document.createElement("img");
+    let itemLabel = document.createElement('p');
+
+    itemLabel.innerHTML = anId;
+    itemLabel.id = anId;
+    itemLabel.className = 'itemLabels';
+    itemLabel.draggable = true;
+
+    imageNode.src = container.getImg();
+    imageNode.id = anId;
+    imageNode.className = 'itemImages';
+    imageNode.draggable = true;
+
+
+    imageNode.onclick = () => { findContainerWithName(anId) };
+
+    addListeners(imageNode);
+    addListeners(itemLabel);
+
+    let parent = container.getParent();
+    parent.appendChild(itemLabel);
+    itemLabel.appendChild(imageNode);
+
+}
+
+function findContainerWithName(aName) {
+    for (let i = 0; i < containerPool.length; i++) {
+        let temp = containerPool[i];
+        if (temp.getName() == aName) {
+            workingContainer = containerPool[i];
+        }
+    }
+    updateWCVJSON();
+}
 
 function makeContainer(type, id, parent, duplicatedNode) {
     let temp;
@@ -210,30 +247,8 @@ function makeContainer(type, id, parent, duplicatedNode) {
     containerPool.push(temp);
 }
 
-//recreates image-container link after room change
-function recreateContainer(container) {
-    let anId = container.getName();
-    let imageNode = document.createElement("img");
 
-    imageNode.src = container.getImg();
-    imageNode.draggable = true;
-    imageNode.id = anId;
-    imageNode.onclick = () => { findContainerWithName(anId) };
-    addListeners(imageNode);
 
-    let parent = container.getParent();
-    parent.appendChild(imageNode);
-}
-
-function findContainerWithName(aName) {
-    for (let i = 0; i < containerPool.length; i++) {
-        let temp = containerPool[i];
-        if (temp.getName() == aName) {
-            workingContainer = containerPool[i];
-        }
-    }
-    updateWCVJSON();
-}
 
 //True returns element, False returns index
 function findContainerToChange(aName, giveNode) {
@@ -262,22 +277,57 @@ function addRoom() {
 }
 
 function addItemJSON() {
-    if (workingContainer != example) {
-        let submit = document.getElementById("addItem");
-        let row = document.getElementById("shelfSelect");
-        let temp = [{ 'row': row.value, 'name': submit.value }];
+    let submit = document.getElementById("addItem");
+    //cannot track an unammed item
+    if (submit.value != '') {
+        if (workingContainer != example) {
+            if (!hasInvalidChar(submit.value)) {
+                submit.value = '';
+                alert('invalid character used in name');
+            }
+            else {
+                let row = document.getElementById("shelfSelect");
+                let temp = [{ 'row': row.value, 'name': submit.value }];
 
-        workingContainer.itemList.push(temp);
-        workingContainer.sortContainer();
-        updateWCVJSON();
-        submit.value = '';
+                workingContainer.itemList.push(temp);
+                workingContainer.sortContainer();
+                updateWCVJSON();
+                submit.value = '';
+            }
+        }
+        else {
+            alert('Cannot add items to the Example ');
+        }
 
     }
     else {
-        alert('Cannot add items to the Example ');
+
     }
 }
 
+//makes sure that no html elements can be added through srting input/display
+function hasInvalidChar(aString){
+    let invalidChars = ['<', '>', '=', '{', '}'];
+    for (let i = 0; i < aString.length; i++) {
+        for (let j = 0; j < invalidChars.length; j++) {
+            if (aString[i] == invalidChars) {
+                return true;
+            }
+                
+        }
+    }
+
+    /*
+    for (i in aString) {
+        for (j in invalidChars) {
+            if (i == j) {
+                return true;
+            }
+        }
+    }
+    */
+    return false;
+}
 
 //***** Updates / Deletions *****//
 
@@ -401,6 +451,9 @@ function drop(ev) {
             parent.removeChild(draggable);
             findContainerWithName('Example');
         }
+    }
+    else if (ev.target.childElementCount >0) {
+
     }
     else if (ev.target.parentNode.id == "row" || ev.target.id == '') {
         ev.target.appendChild(draggable);
