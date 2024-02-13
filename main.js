@@ -281,6 +281,7 @@ function addItemJSON() {
     //cannot track an unammed item
     if (submit.value != '') {
         if (workingContainer != example) {
+            alert(submit.value);
             if (!hasInvalidChar(submit.value)) {
                 submit.value = '';
                 alert('invalid character used in name');
