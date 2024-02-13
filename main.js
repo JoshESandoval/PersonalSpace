@@ -310,7 +310,7 @@ function hasInvalidChar(aString){
     let invalidChars = ['<', '>', '=', '{', '}'];
     for (let i = 0; i < aString.length; i++) {
         for (let j = 0; j < invalidChars.length; j++) {
-            if (aString[i] == invalidChars) {
+            if (aString[i] == invalidChars[j]) {
                 return true;
             }
                 
